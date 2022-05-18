@@ -1,15 +1,13 @@
 package eu.vibemc.lifesteal.other;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
@@ -31,15 +29,10 @@ public class UpdateChecker {
                 HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 String response = new String(connection.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-                JSONParser parser = new JSONParser();
-                JSONArray array = (JSONArray) parser.parse(response);
-                JSONObject json = (JSONObject) array.get(0);
+                JsonArray array = (JsonArray) JsonParser.parseString(response);
+                JsonObject json = (JsonObject) array.get(0);
                 consumer.accept(String.valueOf(json.get("tag_name")));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
                 e.printStackTrace();
             }
         });

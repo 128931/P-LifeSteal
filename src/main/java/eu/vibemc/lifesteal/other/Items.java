@@ -1,6 +1,5 @@
 package eu.vibemc.lifesteal.other;
 
-import eu.vibemc.lifesteal.models.Ban;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;

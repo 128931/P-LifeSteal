@@ -20,15 +20,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class Main extends JavaPlugin {
 
-    private static Main instance;
-
     public static Main getInstance() {
-        return instance;
+        return getPlugin(Main.class);
     }
 
     @Override
     public void onLoad() {
-        instance = this;
         try {
             BanStorageUtil.loadNotes();
         } catch (IOException e) {
@@ -182,8 +179,6 @@ public final class Main extends JavaPlugin {
                     Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "- SOME FEATURES ARE NOT FINISHED YET!");
                 }
                 Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "- You are up to date.");
-                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "- Thank you for using my plugin!");
-                Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "--------P-LifeSteal-" + this.getDescription().getVersion() + "--------");
 
             } else {
                 Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "--------P-LifeSteal-" + this.getDescription().getVersion() + "--------");
@@ -193,13 +188,13 @@ public final class Main extends JavaPlugin {
                 }
                 Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "- There is a newer version than yours! (" + version + ")");
                 Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "- Please download new version from SpigotMC or Github.");
-                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "- Thank you for using my plugin!");
-                Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "--------P-LifeSteal-" + this.getDescription().getVersion() + "--------");
             }
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "- Thank you for using my plugin!");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "--------P-LifeSteal-" + this.getDescription().getVersion() + "--------");
         });
 
         CommandAPI.onEnable(this);
-        Metrics metrics = new Metrics(this, 15176);
+        new Metrics(this, 15176);
         this.getConfig().options().copyDefaults();
         this.saveDefaultConfig();
 
@@ -218,17 +213,14 @@ public final class Main extends JavaPlugin {
         registerRecipes();
 
         // do every 30 minutes
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-
-            new UpdateChecker(this).getVersion(version -> {
-                if (!this.getDescription().getVersion().equals(version)) {
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "--------P-LifeSteal-" + this.getDescription().getVersion() + "--------");
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "- A NEW UPDATE HAS BEEN RELEASED! (" + version + ")");
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "- Please download new version from SpigotMC or Github.");
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "--------P-LifeSteal-" + this.getDescription().getVersion() + "--------");
-                }
-            });
-        }, 0L, 36000L); //36000L
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> new UpdateChecker(this).getVersion(version -> {
+            if (!this.getDescription().getVersion().equals(version)) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "--------P-LifeSteal-" + this.getDescription().getVersion() + "--------");
+                Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "- A NEW UPDATE HAS BEEN RELEASED! (" + version + ")");
+                Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "- Please download new version from SpigotMC or Github.");
+                Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "--------P-LifeSteal-" + this.getDescription().getVersion() + "--------");
+            }
+        }), 0L, 36000L); //36000L
 
     }
 
@@ -273,9 +265,7 @@ public final class Main extends JavaPlugin {
                         Main.getInstance().getServer().addRecipe(shapedRecipe);
                     } else {
                         ShapelessRecipe shapelessRecipe = new ShapelessRecipe(new NamespacedKey("lifesteal", "extraheartrecipe" + recipe), Items.Heart.getHeartItem(Config.getInt("recipe.recipes." + recipe + ".extraHeartItemUseSuccess")));
-                        Config.getStringList("recipe.recipes." + recipe + ".items").forEach(item -> {
-                            shapelessRecipe.addIngredient(Material.getMaterial(item));
-                        });
+                        Config.getStringList("recipe.recipes." + recipe + ".items").forEach(item -> shapelessRecipe.addIngredient(Material.getMaterial(item)));
                         Main.getInstance().getServer().addRecipe(shapelessRecipe);
                     }
                 }

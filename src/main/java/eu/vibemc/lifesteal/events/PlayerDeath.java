@@ -38,8 +38,6 @@ public class PlayerDeath implements Listener {
                 } else {
                     killer.sendActionBar(Config.getMessage("maxHearts").replace("${max}", String.valueOf(Config.getInt("killHeartLimit"))));
                 }
-            } else {
-                return;
             }
         } else {
             if (player.getMaxHealth() - 2 <= 0) {
