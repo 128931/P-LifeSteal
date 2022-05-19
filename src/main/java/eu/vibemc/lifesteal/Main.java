@@ -233,33 +233,34 @@ public final class Main extends JavaPlugin {
                         shapedRecipe.shape("ABC", "DEF", "GHI");
                         AtomicInteger itemId = new AtomicInteger(0);
                         Config.getStringList("recipe.recipes." + recipe + ".items").forEach(item -> {
+                            var material = Material.getMaterial(item);
                             itemId.addAndGet(1);
-                            if (itemId.get() == 1) {
-                                shapedRecipe.setIngredient('A', Material.getMaterial(item));
+                            if (itemId.get() == 1 && material != null) {
+                                shapedRecipe.setIngredient('A', material);
                             }
-                            if (itemId.get() == 2) {
-                                shapedRecipe.setIngredient('B', Material.getMaterial(item));
+                            if (itemId.get() == 2 && material != null) {
+                                shapedRecipe.setIngredient('B', material);
                             }
-                            if (itemId.get() == 3) {
-                                shapedRecipe.setIngredient('C', Material.getMaterial(item));
+                            if (itemId.get() == 3 && material != null) {
+                                shapedRecipe.setIngredient('C', material);
                             }
-                            if (itemId.get() == 4) {
-                                shapedRecipe.setIngredient('D', Material.getMaterial(item));
+                            if (itemId.get() == 4 && material != null) {
+                                shapedRecipe.setIngredient('D', material);
                             }
-                            if (itemId.get() == 5) {
-                                shapedRecipe.setIngredient('E', Material.getMaterial(item));
+                            if (itemId.get() == 5 && material != null) {
+                                shapedRecipe.setIngredient('E', material);
                             }
-                            if (itemId.get() == 6) {
-                                shapedRecipe.setIngredient('F', Material.getMaterial(item));
+                            if (itemId.get() == 6 && material != null) {
+                                shapedRecipe.setIngredient('F', material);
                             }
-                            if (itemId.get() == 7) {
-                                shapedRecipe.setIngredient('G', Material.getMaterial(item));
+                            if (itemId.get() == 7 && material != null) {
+                                shapedRecipe.setIngredient('G', material);
                             }
-                            if (itemId.get() == 8) {
-                                shapedRecipe.setIngredient('H', Material.getMaterial(item));
+                            if (itemId.get() == 8 && material != null) {
+                                shapedRecipe.setIngredient('H', material);
                             }
-                            if (itemId.get() == 9) {
-                                shapedRecipe.setIngredient('I', Material.getMaterial(item));
+                            if (itemId.get() == 9 && material != null) {
+                                shapedRecipe.setIngredient('I', material);
                             }
                         });
                         Main.getInstance().getServer().addRecipe(shapedRecipe);
